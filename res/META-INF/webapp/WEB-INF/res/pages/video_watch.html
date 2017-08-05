@@ -1,0 +1,364 @@
+<table style="width:100%;">
+
+    <tr>
+        <td style="vertical-align: top; ">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{video.num}}) {{video.name}}
+                    <div style="float: right"><span
+                            class="badge main-color">{{::l.watch_clips}}: {{cardsCounter}}</span></div>
+                    </i></div>
+                <div class="panel-body">
+
+                    <video id="mainPlayer" class="std-video" controls src="{{video.src}}">
+                    </video>
+
+                    <div style="margin-top: 10px">
+                        <smart-button glyph="glyphicon glyphicon-plus"
+
+                                      ng-click="onAddCard()">{{::l.watch_cut}}
+                        </smart-button>
+                    </div>
+
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <!--tr>
+        <td style="vertical-align: top; ">
+            <div class="panel panel-info">
+                <div class="panel-heading">{{::l.watch_subtitle_stack}}
+
+                </div>
+                <div class="panel-body">
+                    <input ng-show="!haveSubtitles()" type="file" custom-on-change="uploadFile">
+                    <div ng-repeat="subtitles in subtitlesStack" ng-click="subtitles.view = subtitles.text">
+                        <div ng-bind-html="subtitles.view"></div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr-->
+</table>
+
+
+
+<div class="panel panel-default"
+     style="width: 400px; position: fixed; right: 10px; top: 10px; bottom: 10px; ">
+    <div class="panel-heading">{{::l.watch_subtitle_stack}}</div>
+    <div class="panel-body" style="overflow-y: scroll; height: 90%">
+        <input ng-show="!haveSubtitles()" type="file" custom-on-change="uploadFile">
+        <div ng-repeat="subtitles in subtitlesStack" ng-click="subtitles.view = subtitles.text">
+            <div ng-bind-html="subtitles.view"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="addNewCard" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="margin-top: 10px">
+
+        <div class="modal-content">
+            <div class="modal-header" style="padding-top: 10px; padding-bottom: 10px">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closeCardDialog()">&times;</button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-ok main-color" aria-hidden="true"></span>
+                    {{::l.watch_add_new_clip}}</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <table style="width: 100%">
+                    <tr valign="top">
+                        <td style="width: 50%">
+
+                            <div style="position: relative;">
+                                <video id="cardPlayer" width="100%">
+                                </video>
+                                <div class="video-control-panel unselectable">
+                                    <span class="glyphicon video-control"
+                                          ng-class="{'glyphicon-play': paused, 'glyphicon-repeat': !paused}"
+                                          aria-hidden="true" ng-click="play()"></span>
+
+                                    <span class="glyphicon video-control glyphicon-stop"
+                                          ng-show="!paused"
+                                          aria-hidden="true" ng-click="stop()"></span>
+                                </div>
+                            </div>
+
+                            <table class="unselectable">
+                                <tr>
+                                    <td style="padding-top: 10px; padding-right: 10px">
+                                        <div class="panel panel-default ">
+                                            <!-- ng-class="{selectedPanel: keyTarget == 'left'}" -->
+                                            <div class="panel-heading panel-heading-small"
+                                                 style="text-align: center">{{::l.watch_begin}}
+
+                                                <help text="{{::l.watch_help_subtle}}"></help>
+                                            </div>
+                                            <div class="panel-body panel-body-small">
+
+                                                <table>
+                                                    <tr>
+                                                        <td>
+  <span class="glyphicon glyphicon-arrow-left arrow-mover" aria-hidden="true"
+        ng-click="moveLeftLeft()"
+        ng-class="{'green-color': step == 2, 'blue-color': step == 1}"></span>
+                                                        </td>
+                                                        <td style="padding-left: 5px; padding-right: 5px; padding-top: 6px">
+
+                                                            {{pl.timeStart|number:1}}
+
+                                                        </td>
+                                                        <td>
+   <span class="glyphicon glyphicon-arrow-right arrow-mover" aria-hidden="true"
+         ng-click="moveLeftRight()"
+         ng-class="{'green-color': step == 2, 'blue-color': step == 1}"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td style="padding-top: 10px; padding-right: 10px">
+                                        <div class="panel panel-default ">
+                                            <div class="panel-heading panel-heading-small" style="text-align: center">
+                                                {{::l.watch_end}}
+                                            </div>
+                                            <div class="panel-body panel-body-small">
+
+                                                <table>
+                                                    <tr>
+                                                        <td>
+
+                                    <span class="glyphicon glyphicon-arrow-left arrow-mover" aria-hidden="true"
+                                          ng-click="moveRightLeft()"
+                                          ng-class="{'green-color': step == 2, 'blue-color': step == 1}"></span>
+                                                        </td>
+                                                        <td style="padding-left: 5px; padding-right: 5px; padding-top: 6px">
+
+                                                            {{pl.timeEnd|number:1}}
+
+                                                        </td>
+                                                        <td>
+     <span class="glyphicon glyphicon-arrow-right arrow-mover" aria-hidden="true"
+           ng-click="moveRightRight()"
+           ng-class="{'green-color': step == 2, 'blue-color': step == 1}"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td style="padding-top: 10px; vertical-align: top;">
+                                        <div class="panel panel-success ">
+                                            <div class="panel-heading panel-heading-small" style="text-align: center">
+                                                {{::l.watch_subtitles_shift}}
+                                            </div>
+                                            <div class="panel-body panel-body-small">
+
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                    <span class="glyphicon glyphicon-arrow-left arrow-mover" aria-hidden="true"
+                                          ng-click="moveSubLeft()"
+                                          ng-class="{'green-color': step == 2, 'blue-color': step == 1}"></span>
+                                                        </td>
+                                                        <td style="padding-left: 5px; padding-right: 5px; padding-top: 6px">
+                                                            {{subtitlesOffset|number:1}}
+                                                        </td>
+                                                        <td>
+     <span class="glyphicon glyphicon-arrow-right arrow-mover" aria-hidden="true"
+           ng-click="moveSubRight()"
+           ng-class="{'green-color': step == 2, 'blue-color': step == 1}"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </table>
+
+                <textarea placeholder="Subtitles" class="form-control" rows="3"
+                          style="width: 100%;  padding: 3px 5px 3px 5px;"
+                          ng-model="card.text"></textarea>
+
+                            <div style="margin-top: 10px">
+                                <button class="btn btn-primary" ng-click="onCreateCard()">{{::l.watch_add_clip}}
+                                </button>
+
+                                <button class="btn btn-default" ng-click="onAddFlashcard()">{{::l.watch_add_fc}}
+                                </button>
+                            </div>
+                        </td>
+                        <td style="width: 100%">
+                            <div class="panel panel-default" style="margin-left: 10px">
+                                <div class="panel-heading">
+
+                                    <ul class="nav nav-tabs">
+                                        <li role="presentation" ng-class="{'active': rightPanel=='subtitles'}"
+                                            ng-click="gotoPanel('subtitles')"><a>{{::l.watch_subtitles}}</a></li>
+                                        <li role="presentation" ng-class="{'active': rightPanel=='script'}"
+                                            ng-click="gotoPanel('script')"><a>{{::l.watch_transc}}</a></li>
+
+                                        <li role="presentation" ng-class="{'active': rightPanel=='groups'}"
+                                            ng-click="gotoPanel('groups')"><a>Группы</a></li>
+                                        <!--li role="presentation" ng-class="{'active': rightPanel=='lscript'}"
+                                            ng-click="rightPanel='lscript'"><a>Live Script</a></li-->
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div style="overflow-y: scroll; height: 450px; margin-left: 10px; padding-right: 10px"
+                                         id="rightPanel">
+                                        <div ng-bind-html="transcripts" ng-show="rightPanel=='script'"
+                                             style="padding-top: 10px;">
+                                        </div>
+                                        <div ng-show="(rightPanel=='script')" style="padding-top: 10px;">
+
+                                            <div class="panel panel-info ">
+                                                <div class="panel-heading panel-heading-small"
+                                                     style="text-align: center">
+                                                    {{::l.watch_select_transc}}
+                                                </div>
+                                                <div class="panel-body panel-body-small">
+                                                    <div style="margin-top: 10px"></div>
+                                                    <input type="file" class="form-control" id="selectedTranscripts">
+                                                    <div style="margin-top: 10px"></div>
+                                                    <button class="btn btn-default" ng-click="addTranscripts()">
+                                                <span class="glyphicon glyphicon-triangle-top glyph-inside-button"
+                                                      aria-hidden="true"></span> {{::l.watch_upload}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div ng-show="rightPanel=='subtitles'"
+                                             style="padding-top: 10px; padding-right: 10px">
+
+                                            <div ng-repeat="subtitle in currentSubArray" class="subtitle-block"
+                                                 ng-class="{'subtitle-current': subtitle.current}">
+                                                {{subtitle.text}}
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="rightPanel=='groups'"
+                                             style="padding-top: 10px; padding-right: 10px">
+
+                                            <div ng-repeat="group in currentGroups">
+                                                <table>
+                                                    <tr ng-show="group.fc.length != 0">
+                                                        <td style="padding-bottom: 10px">
+                                                            <div class="group-label">{{group.name}}</div>
+                                                        </td>
+                                                        <td style="padding-bottom: 10px">
+                                                            <span ng-repeat="fc in group.fc">
+                                                            <flashcard-compact front="{{fc.front}}" back="{{fc.back}}">
+
+                                                            </flashcard-compact><span
+                                                                    ng-show="$index != (group.fc.length-1)">,
+                            </span></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <table>
+                                                <tr ng-show="similar.length != 0">
+                                                    <td style="padding-bottom: 10px">
+                                                        <div class="group-label" style="background-color: #0ce3ac">
+                                                            Похожие
+                                                        </div>
+                                                    </td>
+                                                    <td style="padding-bottom: 10px">
+                                                            <span ng-repeat="fc in similar">
+                                                            <flashcard-compact front="{{fc.front}}" back="{{fc.back}}">
+
+                                                            </flashcard-compact><span
+                                                                    ng-show="$index != (group.fc.length-1)">,
+                            </span></span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr ng-show="card.flashcards.length != 0">
+                        <td colspan="2" style="width: 100%">
+                            <div class="panel panel-info" style="margin-top: 10px">
+                                <div class="panel-heading">{{::l.watch_fc}}</div>
+                                <div class="panel-body" style="padding-bottom: 5px">
+                                    <div ng-repeat="flashcard in card.flashcards" class="flashcard">
+                                        <div class="flashcard-front" contenteditable="true" ng-model="flashcard.front"
+                                             ng-paste="onPaste($event)">
+
+                                        </div>
+                                        <div class="flashcard-back" contenteditable="true" ng-model="flashcard.back"
+                                             ng-paste="onPaste($event)">
+
+                                        </div>
+
+                                        <form ng-submit="onGroupEnter(flashcard)" style="margin-bottom: 0px">
+                                            <input style="margin-top: 10px" autocomplete="off"
+                                                   name="states" id="states" type="text" placeholder="Имя группы"
+                                                   ng-model="flashcard.newGroupName"
+                                                   uib-typeahead="group as group.label for group in groups | filter:$viewValue | limitTo:5"
+                                                   typeahead-on-select="onGroupSelect(flashcard, $item)"
+                                                   class="form-control">
+                                        </form>
+
+                                        <div style="padding-top: 10px; float: left; position: relative"
+                                             ng-show="flashcard.groups.length != 0">
+                                            <div style="float: left; position: relative; margin-bottom: 5px"
+                                                 class="group-label" ng-repeat="group in flashcard.groups">
+                                                {{group.name}}
+
+                                                <button type="button" class="close" style="float: none"
+                                                        ng-click="flashcard.groups.splice($index, 1);">×
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="close"
+                                                ng-click="card.flashcards.splice($index, 1);    "
+                                                style="position: absolute;top: 0px;right: 3px;">×
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="update-browser" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-exclamation-sign main-color"
+                                              aria-hidden="true"></span> {{::l.watch_update_browser}}</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-bind-html="l.watch_update_browser_html | unsafe"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<table style="width:100%;">
+
+    <tr>
+        <td style="vertical-align: top; " rowspan="2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Adjust volume</div>
+                <div class="panel-body">
+                    <div ng-repeat="video in videos">
+                        {{video.name}} [{{video.seasonVolume | number:2}}}]
+                        <br>
+                        <video svideo ng-src="{{getSrc(video, $element)}}" width="500"
+                               controls id="video{{video.id}}" ></video>
+                    </div>
+
+                    <button ng-click="updateSeasons()">Update</button>
+                </div>
+            </div>
+        </td>
+    </tr>
+
+</table>

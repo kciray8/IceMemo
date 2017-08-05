@@ -1,0 +1,50 @@
+<div class="panel panel-success" ng-controller="todayPlanController">
+    <div class="panel-heading">
+        {{::l.w_today_plan}}
+    </div>
+
+    <div class="panel-body">
+        <table>
+            <tr>
+                <td>
+                    <div ng-show="dayPlan.repeatClips == 0">
+                        <span class="glyphicon glyphicon-ok green-color" aria-hidden="true"></span>
+                        1) {{::l.w_repeat_old}} <span ng-show="dayPlan.repeatClips != 0">({{dayPlan.repeatClips}})</span>
+                    </div>
+
+                    <div ng-show="dayPlan.repeatClips != 0">
+                        <span class="glyphicon glyphicon-arrow-right main-color" aria-hidden="true"></span>
+                        <a href="#repeat"> 1) {{::l.w_repeat_old}} <span ng-show="dayPlan.repeatClips != 0"> ({{dayPlan.repeatClips}}) </span></a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 10px">
+                    <div ng-show="dayPlan.newClips == 0">
+                        <span class="glyphicon glyphicon-ok green-color" aria-hidden="true"></span>
+                        2) {{::l.w_repeat_new}}  <span ng-show="dayPlan.newClips != 0">({{dayPlan.newClips}})</span>
+                    </div>
+
+                    <div ng-show="dayPlan.newClips != 0">
+                        <span class="glyphicon glyphicon-arrow-right main-color" aria-hidden="true"></span>
+                        <a href="#repeat"> 2) {{::l.w_repeat_new}} <span ng-show="dayPlan.newClips != 0"> ({{dayPlan.newClips}}) </span></a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 10px">
+                    <div ng-show="dayPlan.createdClips >= 20">
+                        <span class="glyphicon glyphicon-ok green-color" aria-hidden="true"></span>
+                        3) {{::l.w_create_new_clips}} ({{dayPlan.createdClips}})
+                    </div>
+
+                    <div ng-show="dayPlan.createdClips < 20">
+                        <span class="glyphicon glyphicon-arrow-right main-color" aria-hidden="true"></span>
+                        <a href="#watch"> 3) {{::l.w_create_new_clips}} ({{dayPlan.createdClips}}) </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

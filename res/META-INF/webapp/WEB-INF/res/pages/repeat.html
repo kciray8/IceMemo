@@ -1,0 +1,296 @@
+<table style="width:100%;">
+    <tr>
+        <td style="vertical-align: top; " rowspan="2">
+            <div class="panel panel-default" ng-show="mode == 'repeat'">
+                <div class="panel-heading">
+                    {{::l.repeat_new}}: {{newCards}} <span class="glyphicon glyphicon-arrow-right learn-arrow"
+                                            aria-hidden="true"></span>
+                    {{::l.repeat_learn}}: {{learnCards}} <span class="glyphicon glyphicon-arrow-right learn-arrow"
+                                                aria-hidden="true"></span>
+                    {{::l.repeat_release}}: {{releaseCards}} <span class="glyphicon glyphicon-arrow-right learn-arrow"
+                                                    aria-hidden="true" style="color: #59822c"></span>
+                    {{::l.repeat_repeat}}: {{repCards}}
+
+                    <span class="glyphicon glyphicon-star mark-star" ng-class="{'mark-star-done': currentCardIsMarked()}"
+                          ng-click="markCurrentCard()"
+                          aria-hidden="true" style="float: right; font-size: 22px"></span>
+                </div>
+
+                <div class="panel-body">
+                    <video id="firstPlayer" ng-show="firstIsMain()" class="std-video">
+                    </video>
+
+                    <video id="secondPlayer" ng-hide="firstIsMain()" class="std-video" width="700">
+                    </video>
+
+                    <div style="margin-top: 10px">
+
+                        <smart-button glyph="glyphicon glyphicon-play"
+                                      key-code="49"
+                                      ng-click="play()">{{::l.repeat_cmd_rep}}
+                        </smart-button>
+
+                        <smart-button glyph="glyphicon glyphicon-adjust"
+                                      key-code="50"
+                                      ng-click="playSlow()"> {{::l.repeat_cmd_slow}}
+                        </smart-button>
+
+                        <smart-button glyph="glyphicon glyphicon-chevron-right"
+                                      key-code="51"
+                                      ng-click="playSlow80()"> {{::l.repeat_cmd_slow_80}}
+                        </smart-button>
+
+
+                        <smart-button glyph="glyphicon glyphicon-pause"
+                                      key-code="52"
+                                      ng-click="pause()">{{::l.repeat_cmd_pause}}
+                        </smart-button>
+
+                    </div>
+
+                    <div style="margin-top: 5px">
+                        <smart-button glyph="glyphicon glyphicon-text-background"
+                                      key-code="192"
+                                      ng-click="showSub = !showSub">
+                            {{::l.repeat_cmd_subtitles}}
+                        </smart-button>
+
+                        <smart-button red="true"
+                                      glyph="glyphicon glyphicon-trash"
+
+                                      ng-click="suspendCard(currentCard)">
+                            {{::l.repeat_cmd_suspend}}
+                        </smart-button>
+
+                        <span ng-show="currentCard.repetitionNum == 0">
+                            <smart-button ng-click="toNextCard(C.REPEAT_NOW)"
+                                          key-code="32">
+                                {{::l.repeat_now}} (30 {{::l.repeat_sec}})
+                            </smart-button>
+
+                            <smart-button ng-click="toNextCard(C.GOOD)"
+                                          key-code="13">
+                                {{::l.repeat_good}} ({{getInterval(currentCard, C.GOOD)}}
+                                {{good_days}})
+                            </smart-button>
+                        </span>
+
+
+                        <smart-button ng-click="toNextCard(C.REPEAT_NOW)"
+                                      key-code="27"
+                                      ng-show="currentCard.repetitionNum > 0"
+                                      red="true">
+                            {{::l.repeat_reset}} (30 {{::l.repeat_sec}})
+                        </smart-button>
+
+                        <smart-button ng-click="toNextCard(C.REPEAT_LATER)"
+                                      key-code="32"
+                                      ng-show="currentCard.repetitionNum == 1">
+                            {{::l.repeat_later}} (10 {{::l.repeat_min}})
+                        </smart-button>
+
+                        <smart-button ng-click="toNextCard(C.HARD)"
+                                      key-code="72"
+                                      ng-show="currentCard.repetitionNum > 2">
+                            {{::l.repeat_hard}} ({{getInterval(currentCard, C.HARD)}} {{hard_days}})
+                        </smart-button>
+
+
+                        <!-- FOR LATER -->
+                        <smart-button ng-click="toNextCard(C.GOOD)"
+                                      key-code="13"
+                                      ng-show="currentCard.repetitionNum == 1">
+                            {{::l.repeat_good}} ({{getInterval(currentCard, C.GOOD)}}
+                            {{good_days}})
+                        </smart-button>
+
+
+                        <smart-button ng-click="toNextCard(C.GOOD)"
+                                      key-code="32" ng-show="currentCard.repetitionNum > 1">
+                            {{::l.repeat_good}} ({{getInterval(currentCard, C.GOOD)}}
+                            {{good_days}})
+                        </smart-button>
+
+
+                        <smart-button ng-click="toNextCard(C.EASY)"
+                                      key-code="13" ng-show="currentCard.repetitionNum > 2">
+                            {{::l.repeat_easy}} ({{getInterval(currentCard, C.EASY)}}
+                            {{easy_days}})
+                        </smart-button>
+                    </div>
+
+                    <div ng-show="showSub">
+                        <div class="alert alert-success top-margin" role="alert"> {{currentCard.text}}</div>
+
+                        <div ng-repeat="flashcard in currentCard.flashcards" class="flashcard" style="margin-top: 5px">
+                            <div class="flashcard-front" ng-bind-html="flashcard.front">
+                            </div>
+                            <div class="flashcard-back" ng-bind-html="flashcard.back">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table style="width:100%;" ng-show="mode == 'end'">
+                <tr>
+                    <td style="width: 250px;vertical-align: top; padding-right: 10px">
+                        <day-plan></day-plan>
+                    </td>
+
+                    <td style="vertical-align: top;">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                {{::l.repeat_results}}
+                            </div>
+
+                            <div class="panel-body">
+                                <button ng-click="showRepeatStat()" class="btn btn-default"> {{::l.repeat_show_stat}}</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div id="repeatStat" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="">&times;</button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-ok glyph-inside-header"
+                                              aria-hidden="true"></span>
+                    {{::l.repeat_stat}}</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            {{::l.repeat_all}}
+                        </th>
+                        <th>
+                            {{::l.repeat_easy}}
+                        </th>
+                        <th>
+                            {{::l.repeat_good}}
+                        </th>
+                        <th>
+                            {{::l.repeat_hard}}
+                        </th>
+                        <th>
+                            {{::l.repeat_reset}}
+                        </th>
+                        <th>
+                            {{::l.repeat_suspended}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{repeatStatData.all}}
+                        </td>
+                        <td>
+                            {{repeatStatData.easy}} ({{repeatStatPercent(repeatStatData.easy) | number: 1}} %)
+                        </td>
+                        <td>
+                            {{repeatStatData.good}} ({{repeatStatPercent(repeatStatData.good)| number: 1}} %)
+                        </td>
+                        <td>
+                            {{repeatStatData.hard}} ({{repeatStatPercent(repeatStatData.hard)| number: 1}} %)
+                        </td>
+                        <td>
+                            {{repeatStatData.reset}} ({{repeatStatPercent(repeatStatData.reset)| number: 1}} %)
+                        </td>
+                        <td>
+                            {{repeatStatData.suspended}} ({{repeatStatPercent(repeatStatData.suspended)| number: 1}} %)
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="panel panel-info" ng-show="flashcardReview.length != 0">
+                    <div class="panel-heading">{{::l.repeat_fc_review}}</div>
+                    <div class="panel-body">
+
+                        <span ng-repeat="flashcard in flashcardReview" >
+<flashcard-compact front="{{flashcard.front}}" back="{{flashcard.back}}"></flashcard-compact><span ng-show="$index != (flashcardReview.length-1)">,
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="panel panel-default"
+     style="width: 400px; position: fixed; right: 10px; top: 10px; bottom: 10px; ">
+    <div class="panel-heading">{{::l.watch_subtitle_stack}}</div>
+    <div class="panel-body" style="overflow-y: scroll; height: 90%">
+        <div class="alert alert-success top-margin" role="alert"> {{currentCard.text}}</div>
+
+        <div ng-repeat="flashcard in currentCard.flashcards" class="flashcard" style="margin-top: 5px">
+            <div class="flashcard-front" ng-bind-html="flashcard.front">
+            </div>
+            <div class="flashcard-back" ng-bind-html="flashcard.back">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--div id="cardDetailsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closeCardDialog()">&times;</button>
+                <h4 class="modal-title">Details</h4>
+            </div>
+            <div class="modal-body">
+                Name - {{selectedCard.videoShortName}}
+                <br>
+                Text - {{selectedCard.text}}
+                <br>
+                {{selectedCard.nextRepetitionDate | date:'dd.MM.yyyy - HH:mm:ss'}}
+            </div>
+        </div>
+
+    </div>
+</div-->
+
+<!--div id="progressModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closeCardDialog()">&times;</button>
+                <h4 class="modal-title">Progress</h4>
+            </div>
+            <div class="modal-body">
+                Duration - {{sumDuration/60}} m
+                Repetition # {{currentCard.repetitionNum}}, Last rep (Days) - {{currentCard.lastRepetition}}
+
+                <div ng-repeat="card in cards">
+                    <button ng-click="onSelectCard(card)" data-toggle="modal" data-target="#cardDetailsModal">D
+                    </button>
+                    {{card.videoShortNameCache}}--{{card.num}}
+
+                        <span ng-show="(card.icon == 'ok') && (card != currentCard)" class="glyphicon glyphicon-ok"
+                              style="color: green" aria-hidden="true"></span>
+                        <span ng-show="(card.icon == 'repeat_now')&& (card != currentCard)"
+                              class="glyphicon glyphicon-repeat" style="color: red" aria-hidden="true"></span>
+                        <span ng-show="(card.icon == 'repeat_later')&& (card != currentCard)"
+                              class="glyphicon glyphicon-repeat" style="color: #ffad39" aria-hidden="true"></span>
+
+                        <span ng-show="card == currentCard" class="glyphicon glyphicon-asterisk"
+                              style="color: dodgerblue" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div-->
+

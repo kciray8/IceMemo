@@ -1,0 +1,206 @@
+<table style="width:100%;">
+    <tr>
+        <td style="width: 250px;vertical-align: top; padding-right: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.bro_restrictions}}
+                </div>
+                <div class="panel-body">
+                    {{::l.add_tv_series}}:
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="true">
+                                        <span ng-show="currentSeries == null">-Select TV Series-</span>
+                                        <span ng-show="currentSeries != null">{{currentSeries.name}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="series in seriesArray" class="ng-scope">
+                                            <a ng-click="selectTVSeries(series)" class="ng-binding">
+                                                {{series.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="padding-left: 5px; padding-bottom: 5px" ng-show="currentSeries != null">
+  <span class="glyphicon glyphicon-arrow-right arrow-mover blue-color" aria-hidden="true"
+        ng-click="addSelectedSeries()"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br>
+                    {{::l.add_seasons}}:
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="dropdown" ng-show="currentSeries != null">
+                                    <button class="btn btn-default dropdown-toggle" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="true">
+                                        <span ng-show="currentSeason == null">-Select Season-</span>
+                                        <span ng-show="currentSeason != null">{{currentSeason.name}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="season in seasons" class="ng-scope">
+                                            <a ng-click="selectSeason(season)" class="ng-binding">
+                                                {{season.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="padding-left: 5px; padding-bottom: 5px" ng-show="currentSeason != null">
+  <span class="glyphicon glyphicon-arrow-right arrow-mover blue-color" aria-hidden="true"
+        ng-click="addSelectedSeason()"></span>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <br>
+
+                    {{::l.add_videos}}:
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="dropdown" ng-show="currentSeason != null">
+                                    <button class="btn btn-default dropdown-toggle" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="true">
+                                        <span ng-show="currentSeason == null">-Select Video-</span>
+                                        <span ng-show="currentSeason != null">{{currentVideo.name | limitTo: 15}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="video in videos" class="ng-scope">
+                                            <a ng-click="selectVideo(video)" class="ng-binding">
+                                                {{video.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="padding-left: 5px; padding-bottom: 5px" ng-show="currentVideo != null">
+  <span class="glyphicon glyphicon-arrow-right arrow-mover blue-color" aria-hidden="true"
+        ng-click="addSelectedVideo()"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br>
+                    <button class="btn btn-default" ng-click="showSuspended()">
+                        <span class="glyphicon glyphicon-trash main-color" aria-hidden="true"></span> {{::l.bro_suspended}}</button>
+                    <br>
+                    <button class="btn btn-default" ng-click="showMarked()" style="margin-top: 10px">
+                        <span class="glyphicon glyphicon-star main-color" aria-hidden="true"></span> {{::l.bro_marked}}</button>
+                </div>
+            </div>
+        </td>
+
+        <td style="vertical-align: top;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.bro_bro_clips}}
+                    <span ng-show="queryRes != undefined">
+                        ({{queryRes.cards.length}}/{{queryRes.length}})
+                    </span>
+                </div>
+
+                <div class="panel-body">
+                    <form ng-submit="search()">
+                        <input size="60" class="form-control" style="display: inline; padding: 6px 12px;"
+                               ng-model="data.query">
+                        <button class="btn btn-default">{{::l.bro_search}}</button>
+                    </form>
+
+                    <table style="width:100%; margin-top: 10px" class="table">
+                        <tr>
+                            <th>{{::l.bro_created}}</th>
+                            <th>{{::l.bro_text}}</th>
+                            <th>{{::l.bro_last_date}}</th>
+                            <th>{{::l.bro_next_date}}</th>
+                            <th>{{::l.bro_left_days}}</th>
+                            <th>{{::l.bro_commands}}</th>
+                        </tr>
+
+                        <tr ng-repeat="card in queryRes.cards"
+                            ng-class="{'suspended': card.suspended, 'marked': card.marked}">
+                            <td>
+                                {{card.date | date: "shortDate"}}
+                            </td>
+                            <td title="{{card.text}}" style="width: 200px">
+                                {{card.text}}
+                            </td>
+                            <td>
+                                {{card.lastRepetitionDate | date: "shortDate"}} [+{{card.lastRepetition}}]
+                            </td>
+                            <td>
+                                {{card.nextRepetitionDate | date: "shortDate"}}
+                            </td>
+
+                            <td>
+                                <div ng-show="(card.lastRepetitionDate != 0) && (!card.suspended)">
+                                    {{getLeftDays(card.nextRepetitionDate)|number:0}}
+                                </div>
+                                <div ng-show="(card.lastRepetitionDate == 0) || (card.suspended)">
+                                    -
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-default" ng-click="openCard(card)">{{::l.bro_open}}</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+
+    </tr>
+</table>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalClipDetails">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{::l.bro_clip_details}}</h4>
+            </div>
+            <div class="modal-body">
+                <div style="position: relative;">
+                    <video id="cardPlayer" width="100%">
+                    </video>
+                    <div class="video-control-panel unselectable">
+                                    <span class="glyphicon video-control"
+                                          ng-class="{'glyphicon-play': paused, 'glyphicon-repeat': !paused}"
+                                          aria-hidden="true" ng-click="play()"></span>
+
+                                    <span class="glyphicon video-control glyphicon-stop"
+                                          ng-show="!paused"
+                                          aria-hidden="true" ng-click="stop()"></span>
+                    </div>
+                </div>
+
+                <div class="subtitle-block" style="margin-top: 10px">
+                    {{selectedCard.text}}
+                </div>
+
+                <button class="btn btn-danger" style="margin-top: 5px" ng-click="onDeleteClip()">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    {{::l.bro_delete}}
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"> {{::l.bro_close}}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

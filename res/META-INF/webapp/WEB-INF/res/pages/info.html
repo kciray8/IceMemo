@@ -1,0 +1,33 @@
+<table style="width:100%;">
+
+    <tr>
+        <td style="width: 250px;vertical-align: top; padding-right: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.info_info}}
+                </div>
+
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"
+                            ng-class="{'active': selectedPage=='general'}">
+                            <a ng-click="selectedPage = 'general'">{{::l.info_gen}}
+                            </a>
+                        </li>
+
+                        <li role="presentation"
+                            ng-class="{'active': selectedPage=='licenses'}">
+                            <a ng-click="selectedPage = 'licenses'">{{::l.info_lics}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </td>
+
+        <td style="vertical-align: top; " rowspan="2">
+
+        </td>
+    </tr>
+
+</table>

@@ -1,0 +1,69 @@
+<table style="width:100%;">
+    <tr>
+        <td style="width: 250px;vertical-align: top; padding-right: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.add_tv_series}}
+                </div>
+
+                <div class="panel-body">
+                    <div ng-show="seriesArray.length == 0">
+                        <a class="btn btn-primary" href="#add">{{::l.menu_add}}</a>
+                    </div>
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="series in seriesArray" role="presentation"
+                            ng-class="{'active': selectedSeries==series}">
+                            <a ng-click="selectSeries(series)">{{series.name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <day-plan></day-plan>
+        </td>
+
+        <td style="vertical-align: top; width: 200px; padding-right: 10px" rowspan="2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.add_seasons}}
+                </div>
+
+                <div class="panel-body">
+                    <div ng-show="seasons.length == 0">
+                        {{::l.c_empty}}
+                    </div>
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="season in seasons" role="presentation"
+                            ng-class="{'active': selectedSeason==season}">
+                            <a ng-click="selectSeason(season)">{{season.name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </td>
+
+
+        <td style="vertical-align: top;" rowspan="2">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{::l.add_videos}}</div>
+
+                <div class="panel-body">
+                    <div ng-show="videos.length == 0">
+                        {{::l.c_empty}}
+                    </div>
+
+                    <table>
+                        <tr ng-repeat="video in videos">
+                            <td style="padding-right: 10px">
+                                <span ng-show="video.done" class="glyphicon glyphicon-ok" style="color: green" > </span>
+                            </td>
+                            <td>
+                                <a href="./#/video/{{video.id}}" target="_blank">{{video.num}}) {{video.name}}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

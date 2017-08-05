@@ -1,0 +1,36 @@
+<launch4jConfig>
+    <headerType>gui</headerType>
+    <outfile>C:\Users\kciray\OneDrive\IceSystem\Projects\Web\IceMemo\Release\My\Main\IceMemo.exe</outfile>
+    <jar>app/Server.jar</jar>
+    <dontWrapJar>true</dontWrapJar>
+    <errTitle>IceMemo</errTitle>
+    <downloadUrl>http://java.com/download</downloadUrl>
+    <supportUrl>url</supportUrl>
+    <icon>res/logoALL.ico</icon>
+    <var>EXEDIR=%EXEDIR%</var>
+
+    <singleInstance>
+        <mutexName>IceMemo</mutexName>
+        <windowTitle>IceMemo</windowTitle>
+    </singleInstance>
+    <jre>
+        <path>jre</path>
+    </jre>
+    <!--splash>
+        <file>res/logoSplash.bmp</file>
+        <waitForWindow>true</waitForWindow>
+    </splash-->
+
+    <versionInfo>
+        <copyright>Yaroslav Baranov</copyright>
+        <fileVersion>1.2.0.0</fileVersion>
+        <txtFileVersion>1.2</txtFileVersion>
+        <fileDescription>Runner for IceMemo</fileDescription>
+        <productName>IceMemo</productName>
+        <companyName>IceMemo</companyName>
+        <productVersion>1.2.0.0</productVersion>
+        <txtProductVersion>1.2</txtProductVersion>
+        <internalName>IceMemo</internalName>
+        <originalFilename>IceMemo.exe</originalFilename>
+    </versionInfo>
+</launch4jConfig>

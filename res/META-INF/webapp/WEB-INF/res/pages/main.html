@@ -1,0 +1,166 @@
+<table style="width:100%;">
+
+    <tr>
+        <!--td style="vertical-align: top; width: 200px" rowspan="2">
+            <!div class="panel panel-default">
+                <div class="panel-heading">{{::l.main_community}}</div>
+                <div class="panel-body">
+                    <div id="vk_groups"></div>
+                    <script type="text/javascript">
+                        VK.Widgets.Group("vk_groups", {mode: 1, width: "220", height: "200", color1: 'FFFFFF', color2: '2B587A', color3: '5B7FA6'}, 123971726);
+                    </script>
+                </div>
+            </div>
+        </td-->
+        <td style="width: 250px;vertical-align: top; padding-right: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.info_info}}
+                </div>
+
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"
+                            ng-class="{'active': selectedPage=='about'}">
+                            <a ng-click="selectedPage = 'about'">{{::l.main_about}}
+                            </a>
+                        </li>
+
+
+                        <li role="presentation"
+                            ng-class="{'active': selectedPage=='general'}">
+                            <a ng-click="selectedPage = 'general'">{{::l.info_gen}}
+                            </a>
+                        </li>
+
+                        <li role="presentation"
+                            ng-class="{'active': selectedPage=='licenses'}">
+                            <a ng-click="selectedPage = 'licenses'">{{::l.info_lics}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <day-plan></day-plan>
+        </td>
+
+        <td style="vertical-align: top; " rowspan="2">
+            <div class="panel panel-default" ng-show="selectedPage=='about'">
+                <div class="panel-heading">{{::l.main_about}}</div>
+                <div class="panel-body">
+                    <div ng-bind-html="l.main_about_html | unsafe"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" ng-show="selectedPage=='general'">
+                <div class="panel-heading">{{::l.info_gen}}</div>
+                <div class="panel-body">
+                    <b>{{::l.info_version}}:</b> {{info.appVersion}} ({{::l.info_codename}} <i>{{::l.info_phoebe}}</i>)<br>
+                    <b>{{::l.info_build_date}}:</b> {{info.buildDate}} <br>
+                    <b>{{::l.info_spring_version}}:</b> {{info.springVersion}} <br>
+                    <b>{{::l.info_hibernate_version}}:</b> {{info.hibernateVersion}} <br>
+                    <hr>
+
+                    <b>{{::l.info_main_folder}}: </b>{{info.mainFolder}} <br>
+                    <b>{{::l.info_app_folder}}:</b> {{info.appFolder}}<br>
+
+                    <!--a href="http://getbootstrap.com/" target="_blank">Created with Twitter Bootstrap</a> <br-->
+                </div>
+            </div>
+
+            <div class="panel panel-default" ng-show="selectedPage=='licenses'">
+                <div class="panel-heading">{{::l.info_lics}}</div>
+                <div class="panel-body">
+                    <h2>Server</h2>
+                    <table class="table" style="width: auto">
+                        <tr>
+                            <th>Component</th>
+                            <th>License</th>
+                        </tr>
+                        <tr>
+                            <td><a href="spring.io"> Spring framework</a></td>
+                            <td>Apache 2.0</td>
+                        </tr>
+                        <tr>
+                            <td><a href="http://wiki.fasterxml.com/JacksonHome">Jackson</a></td>
+                            <td>Apache 2.0</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://commons.apache.org/">Apache commons</a></td>
+                            <td>Apache 2.0</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://jsoup.org/">Jsoup</a></td>
+                            <td>MIT</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="http://slf4j.org/">SLF4J</a></td>
+                            <td>MIT</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="http://www.h2database.com/">H2 Database Engine</a></td>
+                            <td>MPL 2.0</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="http://hibernate.org/">Hibernate</a></td>
+                            <td>LGPL 2.1</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="http://www.eclipse.org/jetty/">Jetty</a></td>
+                            <td>Apache 2.0</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://glassfish.java.net/">Glassfish (javax.*)</a></td>
+                            <td>CDDL</td>
+                        </tr>
+                    </table>
+
+                    <h2>Client</h2>
+                    <table class="table" style="width: auto">
+                        <tr>
+                            <th>Component</th>
+                            <th>License</th>
+                        </tr>
+                        <tr>
+                            <td><a href="https://angularjs.org/">AngularJS</a></td>
+                            <td>MIT</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="http://getbootstrap.com/">Twitter bootstrap</a></td>
+                            <td>MIT</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="http://bootboxjs.com/">Bootbox JS</a></td>
+                            <td>MIT</td>
+                        </tr>
+                        <tr>
+                            <td><a href="http://s-yadav.github.io/contextMenu.html">Context menu</a></td>
+                            <td>MIT</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://jquery.com/">JQuery</a></td>
+                            <td>MIT</td>
+                        </tr>
+                        <tr>
+                            <td><a href="http://underscorejs.org">UnderscoreJS</a></td>
+                            <td>MIT</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="https://github.com/mozilla/vtt.js">VTT JS</a></td>
+                            <td>Apache 2.0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+
+</table>

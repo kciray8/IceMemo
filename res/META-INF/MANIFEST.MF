@@ -1,0 +1,40 @@
+Manifest-Version: 1.0
+Class-Path: spring-tx-4.3.0.RELEASE.jar javax.json-api-1.0.jar hiberna
+ te-core-5.2.0.Final.jar slf4j-simple-1.7.21.jar jackson-databind-2.7.
+ 5.jar jandex-2.0.0.Final.jar jackson-annotations-2.7.0.jar jetty-io-9
+ .3.9.v20160517.jar javax.servlet.jsp-2.3.2.jar javax.el-3.0.0.jar jet
+ ty-servlets-9.3.9.v20160517.jar spring-orm-4.3.0.RELEASE.jar jetty-ht
+ tp-9.3.9.v20160517.jar slf4j-api-1.7.21.jar commons-lang3-3.3.2.jar s
+ pring-webmvc-4.3.0.RELEASE.jar cdi-api-1.1-PFD.jar spring-beans-4.3.0
+ .RELEASE.jar commons-validator-1.4.0.jar dom4j-1.6.1.jar spring-jdbc-
+ 4.3.0.RELEASE.jar spring-mobile-device-1.1.4.RELEASE.jar javax.servle
+ t-api-3.1.0.jar jetty-schemas-3.1.M0.jar classmate-1.3.0.jar geronimo
+ -jta_1.1_spec-1.1.1.jar jetty-util-9.3.9.v20160517.jar ant-1.9.4.jar 
+ ant-antlr-1.9.4.jar ant-junit-1.9.4.jar ant-launcher-1.9.4.jar bsf-2.
+ 4.0.jar commons-cli-1.2.jar commons-logging-1.2.jar gpars-1.2.1.jar g
+ roovy-2.4.6.jar groovy-ant-2.4.6.jar groovy-bsf-2.4.6.jar groovy-cons
+ ole-2.4.6.jar groovy-docgenerator-2.4.6.jar groovy-groovydoc-2.4.6.ja
+ r groovy-groovysh-2.4.6.jar groovy-jmx-2.4.6.jar groovy-json-2.4.6.ja
+ r groovy-jsr223-2.4.6.jar groovy-nio-2.4.6.jar groovy-sql-2.4.6.jar g
+ roovy-swing-2.4.6.jar groovy-templates-2.4.6.jar groovy-test-2.4.6.ja
+ r groovy-testng-2.4.6.jar groovy-xml-2.4.6.jar hamcrest-core-1.3.jar 
+ ivy-2.4.0.jar jansi-1.11.jar jcommander-1.47.jar jline-2.12.jar junit
+ -4.12.jar multiverse-core-0.7.0.jar qdox-1.12.1.jar testng-6.8.13.jar
+  xmlpull-1.1.3.1.jar xstream-1.4.7.jar spring-context-4.3.0.RELEASE.j
+ ar antlr-2.7.7.jar xml-apis-1.0.b2.jar jetty-continuation-9.3.9.v2016
+ 0517.jar javassist-3.20.0-GA.jar spring-web-4.3.0.RELEASE.jar javax.s
+ ervlet.jsp.jstl-1.2.2.jar commons-beanutils-1.8.3.jar spring-expressi
+ on-4.3.0.RELEASE.jar commons-logging-1.1.1.jar commons-fileupload-1.3
+ .1.jar commons-collections4-4.0.jar commons-digester-1.8.jar javax.in
+ ject-1.jar hibernate-jpa-2.1-api-1.0.0.Final.jar commons-io-2.4.jar j
+ etty-server-9.3.9.v20160517.jar javax.servlet.jsp.jstl-1.2.0.v2011052
+ 11821.jar jetty-jsp-9.2.17.v20160517.jar jetty-security-9.3.9.v201605
+ 17.jar spring-core-4.3.0.RELEASE.jar jetty-xml-9.3.9.v20160517.jar je
+ tty-webapp-9.3.9.v20160517.jar spring-aop-4.3.0.RELEASE.jar jsoup-1.9
+ .1.jar hibernate-commons-annotations-5.0.1.Final.jar h2-1.4.191.jar j
+ etty-servlet-9.3.9.v20160517.jar org.eclipse.jdt.core-3.8.2.v20130121
+ .jar javax.json-1.0.4.jar javax.servlet.jsp-api-2.3.1.jar jsr250-api-
+ 1.0.jar el-api-2.2.jar jboss-interceptors-api_1.1_spec-1.0.0.Beta1.ja
+ r jboss-logging-3.3.0.Final.jar jackson-core-2.7.5.jar
+Main-Class: org.icememo.desktop.Main
+

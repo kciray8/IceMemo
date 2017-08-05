@@ -1,0 +1,30 @@
+<p>
+    1) Скачайте и установите <a href="https://ffmpeg.org/download.html" target="_blank">ffmpeg</a></li>
+</p>
+<p>
+    2) Используйте эту команду, чтобы преобразовать видео из mp4/avi в webm без потери качества. Замените то, что выделенно зелёным, на ваш путь к программе, входной файл и выходной файл
+
+</p>
+
+<div class="alert alert-info" role="alert">
+    <span style="background-color: rgba(142, 255, 138, 0.51)">C:\ffmpeg\bin\ffmpeg</span> -i
+    "<span style="background-color: rgba(142, 255, 138, 0.51)">C:\Users\kciray\video.avi</span>" -c:v libvpx -crf 4 -b:v 1M -c:a libvorbis
+    "<span style="background-color: rgba(142, 255, 138, 0.51)">C:\Users\kciray\video.webm</span>"
+</div>
+Процесс может занять продолжительное время. Например, одна серия из сериала "Друзья" может обрабатываться 30-40 минут. Однако, на выходе вы получите видео такого же качества как исходные и идеально подходящие для данной программы.
+
+<p style="padding-top: 10px">
+    3) Для того, чтобы извлечь субтитры из mp4/avi видео, используйте команду ниже. Если язык субтитров будет не тем, что нужен вам, попробуйте заменить цифру 4 (после -map 0:) на 3 или же обратиться к документации ffmpeg
+</p>
+
+<div class="alert alert-info" role="alert">
+    <span style="background-color: rgba(142, 255, 138, 0.51)">C:\ffmpeg\bin\ffmpeg</span> -i
+    "<span style="background-color: rgba(142, 255, 138, 0.51)">C:\Users\kciray\video.avi</span>" -an -vn -map 0:4 -c:s:0 srt
+    "<span style="background-color: rgba(142, 255, 138, 0.51)">C:\Users\kciray\video.srt</span>"
+</div>
+<p>
+    4) Когда вы получите webm-видео и субтитры, переходите на вкладку "Загрузить (*.webm/*.mp4)" и загружайте их обычным способом
+</p>
+<p>
+   5) Если вы хотите обработать много видео за один раз, создайте файл convert.bat, поместите в него последовательность команд, а потом запустите его
+</p>

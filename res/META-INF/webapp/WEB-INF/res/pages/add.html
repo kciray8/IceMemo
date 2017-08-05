@@ -1,0 +1,645 @@
+<table style="width:100%;" xmlns="http://www.w3.org/1999/html">
+    <tr>
+        <td style="width: 250px;vertical-align: top; padding-right: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.add_tv_series}}
+                </div>
+
+                <div class="panel-body">
+                    <div ng-show="series.length == 0">
+                        {{::l.c_empty}}
+                    </div>
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="series in seriesArray" role="presentation"
+                            ng-class="{'active': selectedSeries==series}">
+                            <a ng-click="selectSeries(series)">{{series.name}}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <button class="btn btn-default top-margin" ng-click="onAddNewSeries()" id="addSeriesButton">
+                        <span class="glyphicon glyphicon-plus glyph-inside-button" aria-hidden="true"></span>
+                        {{::l.add_add}}
+                    </button>
+
+                    <div ng-show="selectedSeries != null">
+                        <button class="btn btn-primary top-margin" ng-click="onEditSeries()">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            {{::l.add_edit}}
+                        </button>
+
+                        <button class="btn btn-danger" style="margin-top: 5px" ng-click="onDeleteSeries()">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            {{::l.add_delete}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                     <span class="glyphicon glyphicon-globe glyph-inside-button"
+                           aria-hidden="true"></span>
+                    {{::l.add_download_from_web}}
+
+                </div>
+
+                <div class="panel-body">
+                    <button class="btn btn-primary" ng-click="onOroroDialogOpen()">
+                             <span class="glyphicon glyphicon-search"
+                                   aria-hidden="true"></span>
+
+                        {{::l.add_from_ororo}}
+                    </button>
+                </div>
+            </div>
+
+        </td>
+
+        <td style="vertical-align: top; width: 200px; padding-right: 10px" rowspan="2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.add_seasons}}
+                </div>
+
+                <div class="panel-body">
+                    <div ng-show="(seasons.length == 0)&&(selectedSeries != null)">
+                        {{::l.c_empty}}
+                    </div>
+
+                    <div ng-show="selectedSeries == null">
+                        {{::l.add_please_select_series}}
+                    </div>
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="season in seasons" role="presentation"
+                            ng-class="{'active': selectedSeason==season}">
+                            <a ng-click="selectSeason(season)">{{season.name}}</a></li>
+                    </ul>
+
+                    <button class="btn btn-default top-margin" ng-click="onAddNewSeason()"
+                            id="addSeasonButton"
+                            ng-show="selectedSeries != null">
+                        <span class="glyphicon glyphicon-plus glyph-inside-button" aria-hidden="true"></span>
+                        {{::l.add_add}}
+                    </button>
+
+                    <div ng-show="selectedSeason != null">
+                        <button class="btn btn-primary top-margin" ng-click="onEditSeason()"
+                                id="editSeasonButton">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            {{::l.add_edit}}
+                        </button>
+
+                        <button class="btn btn-danger" style="margin-top: 5px" ng-click="onDeleteSeason()"
+                                id="deleteSeasonButton">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            {{::l.add_delete}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </td>
+
+        <td style="vertical-align: top;" rowspan="2">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{::l.add_videos}}</div>
+
+                <div class="panel-body">
+                    <div ng-show="(videos.length == 0) && (selectedSeason != null)">
+                        {{::l.c_empty}}
+                    </div>
+
+                    <div ng-show="selectedSeason == null">
+                        {{::l.add_please_select_season}}
+                    </div>
+
+                    <div ng-repeat="video in videos">
+                        <a href="./#/video/{{video.id}}" target="_blank">{{video.name}}</a>
+
+                        <button type="button" class="close" ng-click="deleteVideo(video)" style="float: none">×
+                        </button>
+                    </div>
+
+                    <button class="btn btn-default top-margin" ng-click="onUploadVideos()"
+                            id="uploadVideoButton"
+                            ng-show="(selectedSeason != null)&&(selectedSeries != null)">
+                        <span class="glyphicon glyphicon-triangle-top glyph-inside-button" aria-hidden="true"></span>
+                        {{::l.add_upload}}
+                    </button>
+                </div>
+
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<div id="addTvModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 400px">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-ok glyph-inside-header" aria-hidden="true"></span>
+                    {{::l.add_add_series}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input id="newSeriesName" class="form-control" ng-model="newSeriesModel.name" placeholder="Name"
+                       size="40">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default top-margin" ng-click="onAddNewSeriesDone()"
+                        id="addSeriesDoneButton">
+                    <span class="glyphicon glyphicon-plus glyph-inside-button" aria-hidden="true"></span>
+                    {{::l.c_ok}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editTvModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 400px">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-cog glyph-inside-header" aria-hidden="true"></span>
+                    {{::l.add_edit_series}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                {{::l.add_name}}
+                <br>
+                <input class="form-control" ng-model="editedSeries.name" placeholder="Name" size="40">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default top-margin" ng-click="onEditSeriesDone()" style="margin-top: 10px">
+                    <span class="glyphicon glyphicon-ok glyph-inside-button" aria-hidden="true"></span>
+                    {{::l.c_ok}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addSeasonModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 400px">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-ok glyph-inside-header" aria-hidden="true"></span>
+                    {{::l.add_add_season}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input id="newSeasonNameInput" class="form-control" ng-model="newSeasonModel.name" placeholder="Name"
+                       size="40">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default top-margin" ng-click="onAddNewSeasonDone()"
+                        id="addSeasonDoneButton">
+                    <span class="glyphicon glyphicon-plus glyph-inside-button" aria-hidden="true"></span>
+                    {{::l.c_ok}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editSeasonModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 400px">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        id="editSeasonModalCloseButton">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-cog glyph-inside-header" aria-hidden="true"></span>
+                    {{::l.add_edit_season}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                {{::l.add_name}}
+                <br>
+                <input class="form-control" ng-model="editedSeason.name"
+                       id="editSeasonName" placeholder="Name" size="40">
+                <br>
+
+                {{::l.add_volume}}
+                <input class="form-control" ng-model="editedSeason.volume"
+                       id="editSeasonVolume" placeholder="Name" size="40">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default top-margin" id="editSeasonDoneButton"
+                        ng-click="onEditSeasonDone()" style="margin-top: 10px">
+                    <span class="glyphicon glyphicon-ok glyph-inside-button" aria-hidden="true"></span>
+                    {{::l.c_ok}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ororoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-search glyph-inside-header" aria-hidden="true"></span>
+                    <span ng-bind-html="l.add_ororo_header|unsafe"></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div ng-hide="selectedSeasonForDownload != null">
+                    <div ng-bind-html="l.add_please_reg|unsafe"></div>
+                    <table style="margin-bottom: 10px; margin-top: 10px">
+                        <tr>
+                            <td>
+                                 <span class="input-group">
+                            <span class="input-group-addon">{{::l.add_ororo_login}}</span>
+                            <input ng-model="downloadFromWeb.user" type="text" style="width: inherit"
+                                   class="form-control" placeholder="Login">
+                        </span>
+                            </td>
+                            <td>
+                                    <span class="input-group" style="margin-left: 10px">
+                            <span class="input-group-addon">{{::l.add_ororo_password}}</span>
+                            <input ng-model="downloadFromWeb.password" type="password" style="width: inherit"
+                                   class="form-control" placeholder="Login">
+                        </span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="input-group" ng-hide="downloadFromWeb.user.length == 0">
+                        <input ng-model="downloadFromWeb.name" placeholder="TV Series name" class="form-control"
+                               size="25" style="padding: 6px 12px; width: inherit" id="seriesNameInput">
+                        <span class="input-group-btn" style="width: inherit;">
+                                 <button class="btn btn-primary" ng-click="findInWeb()" type="submit">
+                                     {{::l.add_ororo_find}}
+                                 </button>
+                        </span>
+                    </div>
+
+                    <div style="margin-top: 10px" ng-show="searchOroroError.length != 0" class="alert alert-danger" role="alert">
+                        {{searchOroroError}}
+                    </div>
+
+                    <table style="margin-top: 10px" ng-show="searchOroroError.length == 0">
+                        <tr>
+                            <td ng-repeat="series in seriesList" class="poster-frame"
+                                ng-class="{'poster-frame-selected': selectedSeriesForDownload==series}"
+                                ng-click="selectSeriesForDownload(series)"
+                                style="margin: 5px; cursor: pointer; padding: 10px; vertical-align:top">
+                                <img src="{{series.posterUrl}}" width="100"/> <br>
+                                <div style="max-width: 100px; margin-top: 5px">{{series.name}}</div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="margin-top: 10px" ng-show="searchOroroError.length == 0">
+                        <tr>
+                            <td>
+                                <div class="panel panel-info" ng-hide="seasonsForDownload.length == 0">
+                                    <div class="panel-heading">
+                                        {{::l.add_seasons}}
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <table>
+                                            <tr>
+                                                <td ng-repeat="season in seasonsForDownload" role="presentation"
+                                                    class="season-block"
+                                                    ng-class="{'season-block-active': selectedSeasonForDownload==season}"
+                                                    ng-click="selectSeasonForDownload(season)">{{season.num}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div ng-hide="(selectedSeasonForDownload == null)||(ororoTask != null)">
+                    <button class="btn btn-primary" ng-click="selectedSeasonForDownload = null">
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                        {{::l.add_ororo_change_season}}
+                    </button>
+
+                    <div style="margin-top: 10px">
+                        <button class="btn btn-default" ng-click="selectAllSFD()">{{::l.c_select_all}}</button>
+                        <button class="btn btn-default" ng-click="deselectAllSFD()">{{::l.c_deselect_all}}</button>
+                    </div>
+
+                    <table style="margin-top: 10px">
+                        <tr ng-repeat="video in selectedSeasonForDownload.list">
+                            <td>
+                                <input type="checkbox" class="form-control" ng-model="video.check"
+                                       style="margin-right: 5px">
+                            </td>
+                            <td>
+                                {{video.num}}) {{video.name}}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <button style="margin-top: 10px" class="btn btn-primary" ng-click="startDownloadFromOroro()">
+                        {{::l.add_ororo_start_download}}
+                    </button>
+                </div>
+
+                <div ng-show="ororoTask != null">
+                    <table style="margin-top: 10px; width: inherit" class="table">
+                        <tr>
+                            <th style="width: 150px"> {{::l.add_ororo_progress}}</th>
+                            <th>{{::l.add_ororo_video}}</th>
+                        </tr>
+                        <tr ng-repeat="video in ororoTask">
+                            <td>
+                                <div class="progress" style="width: 150px" ng-show="video.status == 'DOWNLOADING'">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                         style="width: {{video.progress}}%">
+                                    </div>
+                                </div>
+                                <div ng-show="video.status == 'wait'">
+                                    {{::l.add_ororo_wait}}
+                                </div>
+                                <div ng-show="video.status == 'ADDED'">
+                                    {{::l.add_ororo_added}}
+                                </div>
+                            </td>
+                            <td>
+                                {{video.num}}) {{video.name}}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <button ng-click="openWatchPage()" class="btn btn-primary" ng-show="downloadFromOroroDone"
+                            style="margin-top: 10px">
+                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        {{::l.add_open_watch}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="uploadVideosModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-ok glyph-inside-header" aria-hidden="true"></span>
+                    {{::l.add_upload_to}} <i>"{{selectedSeries.name}} - {{selectedSeason.name}}"</i>
+                </h4>
+            </div>
+
+            <!--div style="background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%); padding: 5px">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" ng-class="{'active': uploadMethod=='hdd'}"
+                        ng-click="uploadMethod='hdd'">
+                        <a>
+                                <span class="glyphicon glyphicon-folder-open glyph-inside-button"
+                                      aria-hidden="true"></span>
+                            Add from HDD
+                        </a>
+                    </li>
+                    <li role="presentation" ng-class="{'active': uploadMethod=='web'}"
+                        ng-click="uploadMethod='web'">
+                        <a>
+                            <span class="glyphicon glyphicon-globe glyph-inside-button"
+                                  aria-hidden="true"></span>
+                            Add from Web
+                        </a>
+                    </li>
+                </ul>
+            </div-->
+
+            <div ng-show="uploadMethod=='hdd'"
+                 style="background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%); padding: 5px">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" ng-class="{'active': hddAdd=='add'}"
+                        ng-click="hddAdd='add'">
+                        <a>
+                            {{::l.add_add_formats}}
+                        </a>
+                    </li>
+                    <li role="presentation" ng-class="{'active': hddAdd=='convert'}"
+                        ng-click="hddAdd='convert'">
+                        <a>
+                            {{::l.add_add_convert}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="modal-body">
+                <div ng-show="hddAdd=='convert' && uploadMethod=='hdd'">
+                    <span ng-bind-html="l.add_convert_html|unsafe"></span>
+
+                    <!--input type="file" multiple id="selectedFilesToConvert"
+                           onchange="angular.element(this).scope().onSelectFilesToConvert(this)">
+
+                    <table class="table top-margin" ng-show="filesToConvert.length != 0">
+                        <tr>
+                            <th></th>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Size (MB)
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                        <tr ng-repeat="file in filesToConvert">
+                            <td>
+
+                            </td>
+
+                            <td>
+                                <input ng-disabled="file.inProcess" class="form-control" size="2"
+                                       ng-model="file.editableNum">
+                            </td>
+
+
+                            <td>
+                                <input ng-disabled="file.inProcess" class="form-control" size="30"
+                                       ng-model="file.editableName">
+                            </td>
+                            <td>
+                                {{file.size/(1024*1024) | number:0}}
+                            </td>
+                            <td>
+                                <button ng-disabled="file.inProcess"
+                                        class="btn-default btn" ng-click="filesToConvert.splice($index, 1);">Delete
+                                </button>
+                            </td>
+                            <td>
+                                {{file.status}}
+                            </td>
+                        </tr>
+                    </table-->
+                </div>
+
+                <div ng-show="hddAdd=='add' && uploadMethod=='hdd'">
+
+                    <div class="alert alert-success" role="alert">
+                        <div ng-bind-html="l.hdd_hint|unsafe"></div>
+                    </div>
+
+                    <span ng-bind-html="l.select_webm_hint|unsafe"></span>
+
+                    <input accept=".webm,.mp4,.srt"
+                           type="file" multiple id="selectedFiles" style="margin-top: 10px"
+                           onchange="angular.element(this).scope().onSelectFiles(this)">
+
+                    <table class="table top-margin" ng-show="files.length != 0">
+                        <tr>
+                            <th></th>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                {{::l.c_name}}
+                            </th>
+                            <th>
+                                {{::l.add_table_size}}
+                            </th>
+                            <th>
+                                {{::l.add_table_subtitles}}
+                            </th>
+                            <th>
+                                {{::l.add_actions}}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="file in files">
+                            <td>
+                                <span ng-show="file.finished"
+                                      class="glyphicon glyphicon-ok glyph-inside-header" aria-hidden="true"></span>
+                            </td>
+
+                            <td>
+                                <input class="form-control" size="2" ng-model="file.editableNum">
+                            </td>
+
+
+                            <td>
+                                <input class="form-control" size="30" ng-model="file.editableName">
+                            </td>
+                            <td>
+                                {{file.size/(1024*1024) | number:0}}
+                            </td>
+                            <td>
+                                <div ng-show="file.subtitle">{{::l.c_yes}}</div>
+                                <div ng-hide="file.subtitle">{{::l.c_no}}</div>
+                            </td>
+                            <td>
+                                <button class="btn-default btn btn-xs" ng-click="files.splice($index, 1);">
+                                    {{::l.add_delete}}
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div ng-show="uploadMethod=='web'">
+
+
+                </div>
+            </div>
+
+            <!--div class="modal-footer" ng-show="hddAdd=='convert' && uploadMethod=='hdd'">
+                <button class="btn btn-default" ng-click="onConvertSelectedVideos()">
+                    <span class="glyphicon glyphicon-triangle-top glyph-inside-button" aria-hidden="true"></span>
+                    {{::l.add_upload}}
+                </button>
+            </div-->
+
+            <div class="modal-footer" ng-show="hddAdd=='add' && uploadMethod=='hdd'">
+                <button class="btn btn-default" ng-click="onUploadSelectedVideos()">
+                    <span class="glyphicon glyphicon-triangle-top glyph-inside-button" aria-hidden="true"></span>
+                    {{::l.add_upload}}
+                </button>
+            </div>
+
+            <!--div ng-show="(videosInProcess.length > 0)&&(hddAdd=='convert') && (uploadMethod=='hdd')"
+                 style="padding-left: 15px; padding-right: 15px; padding-bottom: 5px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-random glyph-inside-header" aria-hidden="true"></span>
+                        Convert queue
+                    </div>
+                    <div class="panel-body">
+                        <table class="table top-margin" style="width: auto; margin-bottom: 10px">
+                            <tr>
+                                <th>
+                                    Season
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Commands
+                                </th>
+                            </tr>
+                            <tr ng-repeat="video in videosInProcess">
+                                <td>{{video.seasonName}}</td>
+                                <td>{{video.num}}){{video.name}}</td>
+                                <td>
+                                    <div class="progress" style="width: 150px" ng-show="video.status == 'CONVERTING'">
+                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                             style="width: 100%">
+                                            <span>Converting...</span>
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="video.status == 'UPLOADED'" style="padding-left: 10px;padding-right: 10px;
+                                    background-color: rgba(0, 219, 0, 0.2); border-radius: 5px">
+                                        Ready for convert
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn-default btn btn-xs"
+                                            ng-disabled="video.status == 'CONVERTING'"
+                                            ng-click="removeVideoInProcess(video)">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div><b>P.S.: Convert can take very long time (one 20 min video ~ 40 min)</b></div>
+                        <button class="btn btn-primary" ng-click="startConvert()" ng-disabled="convertInProcess">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Convert All
+                        </button>
+                    </div>
+                </div>
+            </div-->
+        </div>
+    </div>
+</div>

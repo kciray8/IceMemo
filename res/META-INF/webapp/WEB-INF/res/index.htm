@@ -1,0 +1,180 @@
+<html ng-app="MyApp" ng-controller="htmlController">
+<head>
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?122"></script>
+
+    <script src="./res/lib/jquery-2.1.4.js"></script>
+    <script src="./res/lib/subtitles.js"></script>
+
+    <script src="./res/lib/angular.js"></script>
+    <script src="./res/lib/angular-messages.js"></script>
+    <script src="./res/lib/angular-route.js"></script>
+    <script src="./res/lib/angular-resource.js"></script>
+    <script src="./res/lib/angular-sanitize.js"></script>
+    <script src="./res/lib/angular-recursion.min.js"></script>
+
+    <script src="./res/lib/ui-bootstrap-tpls-2.0.0.min.js"></script>
+
+
+    <script src="./res/lib/vtt.min.js"></script>
+
+    <script src="./res/lib/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="./res/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="./res/lib/bootstrap-theme.min.css">
+
+    <!--link rel="stylesheet" href="./res/lib/dark/bootstrap-dark.css"-->
+
+    <link rel="stylesheet" href="./res/css/contextMenu.css">
+    <link rel="stylesheet" href="./res/css/main.css?vr=2">
+
+    <script src="./res/lib/underscore-min.js"></script>
+    <script src="./res/lib/spin.min.js"></script>
+    <script src="./res/lib/angular-spinner.min.js"></script>
+    <script src="./res/lib/contextMenu.js"></script>
+    <script src="./res/lib/bootbox.min.js"></script>
+    <script src="./res/main.js"></script>
+
+    <script src="./res/controllers/add.js?vr=2"></script>
+    <script src="./res/controllers/misc.js?vr=2"></script>
+    <script src="./res/controllers/repeat.js?vr=2"></script>
+    <script src="./res/controllers/video.js?vr=2"></script>
+    <script src="./res/controllers/browser.js?vr=2"></script>
+
+    <script src="./res/filters.js"></script>
+    <script src="./res/services.js"></script>
+    <script src="./res/directives.js"></script>
+
+    <title>{{ Page.title() }}</title>
+</head>
+
+<body ng-controller="bodyController">
+
+<nav class="navbar navbar-default" ng-class="{'debug-panel' : settings_.debug}">
+    <div class="container">
+        <div class="navbar-header" style="margin-right: 10px">
+            <a href="#/">
+                <img src="./res/img/logo.png" style="margin-top: 9px"/>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ng-class="{'active': getActive('/')}"><a href="/#/">{{::l.menu_about}}</a></li>
+                <li ng-class="{'active': getActive('/add')}"><a href="#add" id="navAddButton">{{::l.menu_add}}</a></li>
+                <li ng-class="{'active': getActive('/watch')}"><a href="#watch">{{::l.menu_watch}}</a></li>
+                <li ng-class="{'active': getActive('/repeat')}"><a href="#repeat">{{::l.menu_repeat}}</a></li>
+
+                <li ng-show="settings_.demo != true" ng-class="{'active': getActive('/stat')}"><a
+                        href="#stat">{{::l.menu_stat}}</a></li>
+                <li ng-show="settings_.demo == true" data-toggle="modal" data-target="#buyDemoModal">
+                    <a>
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        {{::l.menu_stat}}
+                    </a>
+                </li>
+
+                <li ng-show="settings_.demo != true" ng-class="{'active': getActive('/browser')}"><a href="#browser">{{::l.menu_browser}}</a>
+                </li>
+
+                <li ng-show="settings_.demo == true" data-toggle="modal" data-target="#buyDemoModal">
+                    <a>
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        {{::l.menu_browser}}
+                    </a>
+                </li>
+                <li ng-class="{'active': getActive('/settings')}"><a href="#settings" id="navsettingsButton">{{::l.menu_settings}}</a>
+                </li>
+                <!--li ng-class="{'active': getActive('/info')}"><a href="#info" id="navInfoButton">{{::l.menu_info}}</a></li-->
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                       id="userNameInHeader">{{settings_.user.login}}
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#login">{{::l.menu_change_user}}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div ng-view></div>
+
+</body>
+
+<div id="buyDemoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class=" glyphicon glyphicon-shopping-cart main-color" aria-hidden="true"></span>
+                    {{::l.main_demo_title}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div ng-bind-html="l.main_demo_body"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="activationModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class=" glyphicon glyphicon glyphicon-flash main-color" aria-hidden="true"></span>
+                    {{::l.main_activation}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group" style="margin-top: 10px">
+                    <span class="input-group-addon" id="basic-addon1">Лицензионный ключ</span>
+                    <input ng-model="input.key" type="text" class="form-control"
+                           placeholder="XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX" aria-describedby="basic-addon1">
+                </div>
+
+                <div style="margin-top: 10px">
+                    <button class="btn btn-success" ng-disabled="input.key.length != 39" ng-click="activate()">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        Активировать
+                    </button>
+                </div>
+                <div ng-show="wrongKeyMessage != ''" style="margin-top: 10px"
+                     class="alert alert-warning" role="alert">{{wrongKeyMessage}}
+                </div>
+
+                <!--div ng-bind-html="l.main_demo_body"></div-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="errorModal" class="modal fade" role="dialog">
+    <div class="modal-dialog add-card-dialog" style="width: 1000px">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    {{globalErrorName}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div ng-bind-html="globalErrorHtml">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default top-margin" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-plus glyph-inside-button" aria-hidden="true"></span>
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</html>

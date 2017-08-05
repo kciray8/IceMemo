@@ -1,0 +1,264 @@
+<table style="width:100%;">
+
+    <tr>
+        <td style="vertical-align: top; " rowspan="2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" ng-class="{'active': stat=='video'}"
+                            ng-click="stat='video'">
+                            <a>
+                                {{::l.stat_videos}}
+                            </a>
+                        </li>
+                        <li role="presentation" ng-class="{'active': stat=='season'}"
+                            ng-click="stat='season'">
+                            <a>
+                                {{::l.stat_seasons}}
+                            </a>
+                        </li>
+
+                        <!--li role="presentation" ng-class="{'active': stat=='live'}"
+                            ng-click="stat='live'">
+                            <a>
+                                Live
+                            </a>
+                        </li-->
+                    </ul>
+
+                </div>
+                <div class="panel-body">
+                    <div ng-show="stat == 'video'">
+                        <table style="border-spacing:5px; border-collapse: separate;">
+                            <tr>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="true">
+                                            <span ng-show="currentSeries == null">{{::l.stat_select_series}}</span>
+                                            <span ng-show="currentSeries != null">{{currentSeries.name}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="series in seriesArray" class="ng-scope">
+                                                <a ng-click="selectTVSeries(series)" class="ng-binding">
+                                                    {{series.name}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="true">
+                                            <span ng-show="currentSeason == null">{{::l.stat_select_season}}</span>
+                                            <span ng-show="currentSeason != null">{{currentSeason.name}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="season in seasons" class="ng-scope">
+                                                <a ng-click="selectSeason(season)" class="ng-binding">
+                                                    {{season.name}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table">
+                            <tr>
+                                <th>{{::l.stat_name}}</th>
+                                <th>{{::l.stat_clips}}</th>
+                                <th>{{::l.stat_fc}}</th>
+                            </tr>
+
+                            <tr ng-repeat="stat in videoStat">
+                                <td>
+                                    {{stat.name}}
+                                </td>
+
+                                <td>
+                                    {{stat.cards}}
+                                </td>
+                                <td>
+                                    {{stat.flashcards}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div ng-show="stat == 'season'">
+                        <div ng-repeat="series in allStat.seriesArray">
+                            <h3>{{series.name}}</h3>
+                            <table class="table">
+                                <tr>
+                                    <th>{{::l.stat_name}}</th>
+                                    <th>{{::l.stat_clips}}</th>
+                                    <th>{{::l.stat_clips_avg}}</th>
+                                    <th>{{::l.stat_fc}}</th>
+                                    <th>{{::l.stat_fc_avg}}</th>
+                                    <th>{{::l.stat_video}}</th>
+                                    <th>{{::l.stat_done}}</th>
+                                </tr>
+
+                                <tr ng-repeat="stat in series.seasonsStat">
+                                    <td>
+                                        {{stat.name}}
+                                    </td>
+
+                                    <td>
+                                        {{stat.cards}}
+                                    </td>
+                                    <td>
+                                        <div ng-show="stat.cardsAvg != -1">
+                                            {{stat.cardsAvg|number:2}}
+                                        </div>
+                                        <div ng-show="stat.cardsAvg == -1">
+                                            ...
+
+                                            <help text="You will see average card only when all videos are finished" ></help>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{stat.flashcards}}
+                                    </td>
+                                    <td>
+                                        <div ng-show="stat.flashcardsAvg != -1">
+                                            {{stat.flashcardsAvg|number:2}}
+                                        </div>
+                                        <div ng-show="stat.flashcardsAvg == -1">
+                                            ...
+
+                                            <help text="You will see average flashcard only when all videos are finished" ></help>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        {{stat.videosDone}}/{{stat.videos}}
+                                    </td>
+
+                                    <td>
+                                        {{((stat.videosDone * 100)/(stat.videos)) |number:0}}%
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--div ng-show="stat == 'live'">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="true">
+                                <span ng-show="currentLiveVideo != null">{{currentLiveVideo.name}}</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="video in liveVideos" class="ng-scope">
+                                    <a ng-click="selectLiveVideo(video)" class="ng-binding">
+                                        {{video.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <table class="table" style="margin-top: 10px">
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th ng-repeat="stat in liveStat">
+                                    {{stat.date | date:'dd.MM.yyyy HH:mm'}}
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    All
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.all}}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Hard (1-3)
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.hard}}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Medium (4-6)
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.medium}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Easy (7-9)
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.easy}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Understanding
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.percent}} %
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Hard -> Easy
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.hard_easy}}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Hard -> Medium / Medium -> Easy
+
+                                </th>
+                                <td ng-repeat="stat in liveStat">
+                                    {{stat.one_step_forward}}
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h3>Hard -> Easy</h3>
+                        <div ng-repeat="stat in liveStat">
+                            <h4>
+                                {{stat.date | date:'dd.MM.yyyy'}}
+                            </h4>
+
+                            <div ng-repeat="speech in stat.hardEasyList" style="margin-bottom: 10px">
+                                <b><span ng-bind-html="speech.person"></span></b>:
+                                <span ng-bind-html="speech.speech"></span>
+                            </div>
+                        </div>
+                    </div-->
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

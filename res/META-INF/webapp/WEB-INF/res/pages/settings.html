@@ -1,0 +1,43 @@
+<table style="width:100%;">
+
+    <tr>
+        <td style="width: 250px;vertical-align: top; padding-right: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{::l.settings_settings}}
+                </div>
+
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"
+                            ng-class="{'active': selectedPage=='general'}">
+                            <a ng-click="selectedPage = 'general'">{{::l.settings_general}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </td>
+
+        <td style="vertical-align: top; " rowspan="2">
+            <div class="panel panel-default" ng-show="selectedPage=='general'">
+                <div class="panel-heading">{{::l.settings_general}}</div>
+                <div class="panel-body">
+                    {{::l.settings_language}}
+                    <div class="dropdown" style="margin-top: 10px">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{lang}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li ng-click="selectLang('eng')"><a >eng</a></li>
+                            <li ng-click="selectLang('rus')"><a >rus</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+
+</table>

@@ -1,0 +1,20 @@
+<div class="dimScreen" onclick="window.history.back();">
+
+</div>
+
+<div class="panel panel-primary login_panel" style="width: 300px">
+    <div class="panel-heading">{{::l.login_users}}</div>
+    <div class="panel-body">
+
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="user in users" role="presentation">
+                <a ng-click="selectUser(user.id)">{{user.login}}</a>
+            </li>
+
+            <div style="margin-top: 10px">
+                <input class="form-control" style="display: inline" ng-model="newUser.name" id="newUserName">
+                <button class="btn btn-default" ng-click="createUser()" id="createNewUserButton" style="margin-top: 10px">{{::l.login_create}}</button>
+            </div>
+        </ul>
+    </div>
+</div>
